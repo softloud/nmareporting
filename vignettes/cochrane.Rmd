@@ -9,8 +9,10 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
+  cache = TRUE,
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.align = "center"
 )
 
 ```
@@ -18,3 +20,316 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(nmareporting)
 ```
+
+## load packages
+
+```{r packages,message=FALSE}
+
+# toolchain walkthrough
+library(multinma) # network meta-analysis
+library(tidyverse)
+
+
+```
+
+```{r include=FALSE}
+conflicted::conflict_prefer("filter", "dplyr")
+
+parkinsons_dat <- parkinsons %>% 
+  mutate(
+          studyn = str_c("study_", studyn),
+          trtn = str_c("trt_", trtn)
+  )
+
+# additional packages used in this walkthrough
+library(tidyverse) # general purpose
+library(kableExtra) # tables
+library(patchwork)
+
+```
+
+
+## example data | Parkinson's disease
+
+```{r eval=FALSE}
+# from data documentation
+?parkinsons
+
+```
+
+
+> mean off-time reduction in patients given dopamine agonists as adjunct therapy in Parkinson's disease from 7 trials comparing four active drugs and placebo
+
+```{r}
+parkinsons_dat %>%
+    # display top values
+    head(3)
+
+```
+
+
+## bayesian network meta-analysis model
+
+\[
+\left.
+\begin{array}{c r c l}
+\text{prior} & \boldsymbol d & \sim & \text{normal}(\boldsymbol d_0, \boldsymbol \Sigma_d)\\
+\text{likelihood} & \boldsymbol y | \boldsymbol d & \sim & \text{normal}(\boldsymbol \delta, \boldsymbol V)\\
+\text{fixed effects model} &  \boldsymbol \delta &=& \boldsymbol{Xd}
+\end{array}
+\right\}
+\]
+
+## create network object
+
+```{r}
+parkinsons_net <-
+    set_agd_contrast(
+        parkinsons,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    )
+
+```
+
+
+
+## network meta-analysis model | prior
+
+```{r}
+# prior
+summary(normal(scale = 100))
+
+```
+
+an example of an area I would like to learn more about; selection of priors. 
+
+## network meta-analysis model | `::nma`
+
+```{r}
+# fit model to network object
+parkinsons_nma <-
+    nma(
+        # network object
+        parkinsons_net, 
+        
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed", 
+        
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100))
+
+```
+
+# cochrane reporting 
+
+## cochrane reporting | network
+
+```{r}
+plot(parkinsons_net, weight_edges = FALSE)
+
+```
+
+## cochrane reporting |  intervention effects
+
+```{r fig.height=3.5}
+plot(parkinsons_nma)
+
+```
+
+## cochrane reporting |  intervention effects
+
+```{r fig.height=3.5}
+plot_prior_posterior(parkinsons_nma)
+
+```
+
+
+## cochrane reporting | ranking {.smaller}
+
+```{r fig.width=10, fig.height = 4, fig.align="center"}
+posterior_rank_probs(parkinsons_nma) %>% plot() 
+
+posterior_rank_probs(parkinsons_nma, cumulative = TRUE) %>% plot()
+
+```
+
+# sensitivity
+
+## leave one out | exclude a random study from the network meta-analysis
+
+```{r include=FALSE}
+# choose a random study
+study_to_filter <- 
+  parkinsons_dat%>% 
+  pull(studyn) %>% 
+  unique() %>% 
+  sample(1)
+
+leave_one_out_plot <-
+parkinsons_dat%>% 
+  filter(studyn != study_to_filter) %>% 
+     set_agd_contrast(
+       # data
+       .,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    ) %>% 
+      nma(
+        # network object
+        .,
+        
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed", 
+        
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100)) %>% 
+  plot()
+
+
+```
+
+
+
+```{r echo=FALSE, fig.height=3,fig.align="center"}
+leave_one_out_plot
+
+```
+
+
+```{r}
+# excluding study
+study_to_filter
+
+```
+
+## leave m out {.flexbox}
+
+```{r combinations, include=FALSE,warning=FALSE}
+# get combinations of treatments
+# ::combn w ::t might be useful
+all_trt_comb <-
+  parkinsons_dat%>%
+  select(studyn, trtn)
+
+trt_comb <- 
+all_trt_comb %>%
+  pull(studyn) %>%
+  unique() %>%
+  map_df(
+    .f = function(study) {
+      all_trt_comb %>%
+        filter(studyn == study) %>%
+        pull(trtn) %>%
+        combn(2) %>%
+        t() %>%
+        as_tibble()
+    }
+  ) %>%
+  distinct() %>% 
+  filter(V1 == 2)
+
+
+```
+
+```{r include=FALSE}
+
+
+
+# trial function
+
+trial <- function(studies_to_include) {
+  
+  trial_model <-
+  parkinsons_dat%>% 
+    filter(studyn %in% studies_to_include) %>% 
+     set_agd_contrast(
+       # data
+       .,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    ) %>% 
+      nma(
+        # network object
+        .,
+        
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed", 
+        
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100))
+  
+  summary(trial_model, par = "d") %>% 
+    as_tibble() %>% 
+    select(parameter, mean) %>% 
+    arrange(mean) %>%
+    mutate(rank = row_number(),
+           k = length(studies_to_include)) %>% 
+    select(-mean)
+
+}
+
+# extract study combinations
+studies <-
+  parkinsons_dat%>% 
+  pull(studyn) %>% 
+  unique() 
+
+study_inclusions <-
+  3:length(studies) %>% 
+  map_df(.f = function(k){
+  combn(
+    x = studies,
+    m = k,
+    simplify = FALSE
+  ) %>% 
+      tibble(
+        k = k,
+        included_studies = .
+      )
+  }) 
+
+
+```
+
+```{r include=FALSE}
+rankings <-
+  study_inclusions %>%
+  pull(included_studies) %>% 
+  map_df(trial) 
+
+```
+
+```{r echo=FALSE, fig.height=5.5, fig.width=10, fig.align="center"}
+rankings %>%
+  mutate(rank = as_factor(rank)) %>% 
+  ggplot(aes(x = parameter, fill = rank)) +
+           geom_bar(alpha = 0.5, width = 0.5) +
+  ggthemes::theme_hc() +
+  rockthemes::scale_fill_nodoubt(
+    guide = guide_legend(reverse = TRUE)
+  ) +
+  facet_wrap(~k) +
+  coord_flip() +
+  labs(
+    title = str_wrap("network meta-analysis study subset ranking distributions", 100), 
+    subtitle = str_wrap("on treatments for all subsets of 3 or greater of the available 7 studies", 100),
+    y = "number of subsets of size k from the 7 studies that measure treatment",
+    caption = str_wrap("Bar plots are grouped by k, the number of studies.", 60),
+    x = "treatment"
+  )
+
+```
+
+
+
+

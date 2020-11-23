@@ -9,6 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
+  eval=FALSE,
   collapse = TRUE,
   comment = "#>"
 )
@@ -17,4 +18,63 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(nmareporting)
+```
+
+## threshold analysis | arguments
+
+- posterior mean estimates
+- likelihood covariance matrix
+- posterior covariance matrix
+- design matrix of contrasts
+
+## threshold analysis | posterior mean estimates
+
+```{r}
+# get posterior mean estimates
+post_means <- 
+  summary(parkinsons_nma, pars=c("d")) %>% 
+  as.data.frame() %>%
+  pull("mean")
+
+# print values
+post_means
+
+```
+
+
+## threshold analysis | design matrix
+
+```{r height = 5,echo=FALSE}
+plot(parkinsons_net, weight_edges = FALSE)
+
+```
+
+
+```{r echo=FALSE}
+#
+
+
+X <- matrix(data = c(-1, 0, 1, 0,
+              -1, 1, 0, 0,
+              1, 0, 0, 0,
+              0, 0, 1, 0,
+              0, 0, 0, 1),
+            byrow = TRUE,
+            nrow = 5,
+            ncol = 4)
+
+X
+```
+
+
+
+## threshold | posterior likelihood
+
+```{r}
+
+Sigma_d <- 
+  diag(rep(100^2, length(post_means)))
+
+
+
 ```
