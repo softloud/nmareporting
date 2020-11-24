@@ -25,6 +25,36 @@ nmareporting:: is also a case study in how we can bring together
 practitioners and stakeholders from different scientific organisations
 to collaborate on an open, shared tool for evidence synthesis.
 
+## Status
+
+In early development/design.
+
+## Development plan
+
+### Cochrane example
+
+`parkinsons` dataset
+
+  - [ ] toolchain walkthrough
+  - [ ] threshold analysis
+
+### More examples for Cochrane
+
+### Campbell and others
+
+  - [ ] Investigate reporting standards MECIR / MECCIR (yes, both, Neal
+    says)
+
+### Templates
+
+### Cochrane
+
+  - [ ] slides
+
+## Shiny
+
+### Others
+
 ## Installation
 
 <!-- You can install  -->
@@ -46,7 +76,3 @@ You can install the development version from
 # install.packages("devtools")
 devtools::install_github("softloud/nmareporting")
 ```
-
-## Status
-
-In early development/design.
