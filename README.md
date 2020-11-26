@@ -28,23 +28,22 @@ to collaborate on an open, shared tool for evidence synthesis.
 ## computational waystation
 
 A great deal of thought goes into packages for general release on, say,
-CRAN.
-
-There are some problems that are best not hidden within functions, but
-shown as toolchain walkthroughs, and some problems are so widely
+CRAN. There are some problems that are best not hidden within functions,
+but shown as toolchain walkthroughs, and some problems are so widely
 encountered that functions will be of great use to the research
 community. It is hard for any one person to know what is required.
 
 Providing a computational waystation for collaborative open science on
 the problem enables researchers to share solutions, and identify the
 boundaries of what should be functionalised. This research compendium
-comprises:
+intends to comprise:
 
   - a website with toolchain walkthroughs and vignettes
   - a package with extension functions for network meta-analysis
     packages, `multinma` and `nmathresh`, others, as required
   - a one-stop shop for Cochrane researchers reporting network
     meta-analyses
+  - slide template
   - an open source repository with problems outlined in issue forums for
     discussion and project management
 
@@ -62,12 +61,12 @@ In early development/design.
 
 `parkinsons` dataset
 
-  - [ ] toolchain walkthrough
-  - [ ] threshold analysis
+  - [ ] toolchain walkthrough \#1
+  - [ ] threshold analysis \#2
 
 ### More examples for Cochrane
 
-### Campbell and others
+### Campbell and others \#3
 
   - [ ] Investigate reporting standards MECIR / MECCIR (yes, both, Neal
     says)
