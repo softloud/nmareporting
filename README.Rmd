@@ -44,12 +44,12 @@ In early development/design.
 
 `parkinsons` dataset
 
-- [ ] toolchain walkthrough #1
-- [ ] threshold analysis #2
+- [ ] toolchain walkthrough [#1](/../../issues/1)
+- [ ] threshold analysis [#2](/../../issues/2)
 
 ### More examples for Cochrane
 
-### Campbell and others #3
+### Campbell and others [#3](/../../issues/3)
 
 - [ ] Investigate reporting standards MECIR / MECCIR (yes, both, Neal says)
 
