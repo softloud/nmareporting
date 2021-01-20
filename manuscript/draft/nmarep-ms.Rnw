@@ -33,7 +33,10 @@
 <<ms, echo=FALSE>>=
 knitr::opts_chunk$set(
   echo=FALSE,
-  fig.height = 3
+  fig.height = 3,
+  cache = TRUE,
+  message=FALSE,
+  warning=FALSE
 )
 @
 
@@ -46,6 +49,10 @@ library(patchwork)
 
 # multinma option for parallel core processing
 options(mc.cores = parallel::detectCores())
+
+# for reproducibility
+set.seed(42)
+
 @
 
 
@@ -60,7 +67,7 @@ Pairwise analyses between treatment and control, exposed and unexposed, interven
 
 \begin{figure}
 \centering
-<<>>=
+<<network>>=
 parkinsons_net <-
     set_agd_contrast(
         parkinsons,
@@ -80,7 +87,7 @@ plot(parkinsons_net, weight_edges = FALSE)
 
 Software to implement network meta-analyses are relatively new and do not provide complete toolchains for specific protocols, such as reporting results according to Cochrane's handbook~\cite{higgins2019cochrane}. For example, the handbook recommends reporting the network of direct evidence, for which the R package \package{multinma} includes a tool~\cite{phillippo_multinma_2020}, an example of which is shown in Figure \ref{fig:network}. However, the handbook also recommends reporting a \textbf{contribution matrix} of the percentage of each study's contribution to the estimated overall effect, and this is not provided as a visualisation tool with \package{multinma}.
 
-Furthermore, open source scientific software is shifting from all-purpose packages for an entire analysis, such as \package{metafor}, to smaller task-specific software packages. One method of aggregation of tools is a \textbf{metapackage}, such as \package{tidyverse}~\cite{wickham_tidyverse_2017}, for data engineering, which comprises a number of packages that each pertain to different problems, such as \package{ggplot2} for data visualisation, and \package{dplyr} for Boolean data manipulation. Here we explore another way of aggregating resources, for the specific purpose of network meta-analysis reporting: a computational \textbf{way station}, a temporary resting place between two points of travel, of toolchains and tool development.
+Furthermore, open source scientific software is shifting from all-purpose packages for an entire analysis, such as \package{metafor}, to smaller task-specific software packages. One method of aggregation of tools is a \textbf{metapackage}, such as \package{tidyverse}~\cite{wickham_tidyverse_2017}, for data engineering, which comprises a number of packages that each pertain to different problems, such as \package{ggplot2} for data visualisation, and \package{dplyr} for Boolean data manipulation. Here we explore another way of aggregating resources, for the specific purpose of network meta-analysis reporting: a computational \textbf{way station}, a temporary resting place between two points of travel, of toolchains and tool development. Since protocols and tools are are still being developed, this is a way station between a single person's analysis, and a resource that is definitive for all practitioners to follow.
 
 \subsection{A snapshot of a living resource}
 
@@ -120,15 +127,220 @@ Visualisations, too, are still in development. A recent improvement on standard 
 
 \subsection{Sensitivity analyses}
 
-Sensitivity in network meta-analysis measures how much the studies agree in results. A standard approach to measuring this is a 'leave one out analysis', shown in Figure \ref{fig:one}, where a study is randomly selected to be omitted, and the meta-analysis is rerun to see if the results differ.
+
+<<filter study>>=
+
+# make labels a bit more informative
+parkinsons_dat <- parkinsons %>%
+  mutate(
+          studyn = str_c("study_", studyn),
+          trtn = str_c("trt_", trtn)
+  )
+
+# get random study
+study_to_filter <-
+  parkinsons_dat%>%
+  pull(studyn) %>%
+  unique() %>%
+  sample(1)
+
+@
+
+
+Sensitivity in network meta-analysis measures how much the studies agree in results. A standard approach to measuring this is a 'leave one out analysis', shown in Figure \ref{fig:one}, where a study is randomly selected to be omitted, and the meta-analysis is rerun to see if the results differ. We randomly select study %`r study_to_filter` to remove from the analysis.
+
+<<>>=
+study_to_filter
+@
+
+to remove from the analysis.
 
 \begin{figure}
-<<>>=
+<<forest, message=FALSE>>=
 
+
+all_studies_plot <-
+parkinsons_dat%>%
+     set_agd_contrast(
+       # data
+       .,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    ) %>%
+      nma(
+        # network object
+        .,
+
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed",
+
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100)) %>%
+  plot()
+
+
+leave_one_out_plot <-
+parkinsons_dat%>%
+  filter(studyn != study_to_filter) %>%
+     set_agd_contrast(
+       # data
+       .,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    ) %>%
+      nma(
+        # network object
+        .,
+
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed",
+
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100)) %>%
+  plot()
+
+all_studies_plot + leave_one_out_plot
+
+@
+
+\caption{On the left is a forest plot of all analyses. On the right is a forest plot of the analysis with a randomly selected study omitted.}
+\label{fig:one}
+\end{figure}
+
+In this case, there is little disagreement between the studies. However, it does raise the question of what the analysis would report if another study were omitted, and, indeed, what if more than one study were omitted? In Figure \ref{fig:leavem}, we provide aggregation of rankings of network meta-analyses run on all subsets, of size three or greater, of the studies.
+
+<<combinations, warning=FALSE>>=
+# get combinations of treatments
+# ::combn w ::t might be useful
+all_trt_comb <-
+  parkinsons_dat%>%
+  select(studyn, trtn)
+
+trt_comb <-
+all_trt_comb %>%
+  pull(studyn) %>%
+  unique() %>%
+  map_df(
+    .f = function(study) {
+      all_trt_comb %>%
+        filter(studyn == study) %>%
+        pull(trtn) %>%
+        combn(2) %>%
+        t() %>%
+        as_tibble()
+    }
+  ) %>%
+  distinct() %>%
+  filter(V1 == 2)
 
 
 @
+
+
+<<trial>>=
+# trial function
+
+trial <- function(studies_to_include) {
+
+  trial_model <-
+  parkinsons_dat%>%
+    filter(studyn %in% studies_to_include) %>%
+     set_agd_contrast(
+       # data
+       .,
+        study = studyn,
+        trt = trtn,
+        y = diff,
+        se = se_diff,
+        sample_size = n
+    ) %>%
+      nma(
+        # network object
+        .,
+
+        # fixed; for brevity w sensitivity
+        trt_effects = "fixed",
+
+        # set prior on treatment contrast with placebo
+        prior_trt = normal(scale = 100))
+
+  summary(trial_model, par = "d") %>%
+    as_tibble() %>%
+    select(parameter, mean) %>%
+    arrange(mean) %>%
+    mutate(rank = row_number(),
+           k = length(studies_to_include)) %>%
+    select(-mean)
+
+}
+
+# extract study combinations
+studies <-
+  parkinsons_dat%>%
+  pull(studyn) %>%
+  unique()
+
+study_inclusions <-
+  3:length(studies) %>%
+  map_df(.f = function(k){
+  combn(
+    x = studies,
+    m = k,
+    simplify = FALSE
+  ) %>%
+      tibble(
+        k = k,
+        included_studies = .
+      )
+  })
+
+@
+
+
+
+<<rankings>>=
+rankings <-
+  study_inclusions %>%
+  pull(included_studies) %>%
+  map_df(trial)
+
+@
+
+
+\begin{figure}
+\centering
+<<leavem, fig.height=5.5>>=
+rankings %>%
+  mutate(rank = as_factor(rank)) %>%
+  ggplot(aes(x = parameter, fill = rank)) +
+           geom_bar(alpha = 0.5, width = 0.5) +
+  ggthemes::theme_hc() +
+  rockthemes::scale_fill_nodoubt(
+    guide = guide_legend(reverse = TRUE)
+  ) +
+  facet_wrap(~k) +
+  coord_flip() +
+  labs(
+    title = str_wrap("network meta-analysis study subset ranking distributions", 100),
+    subtitle = str_wrap("on treatments for all subsets of 3 or greater of the available 7 studies", 100),
+    y = "number of subsets of size k from the 7 studies that measure treatment",
+    caption = str_wrap("Bar plots are grouped by k, the number of studies.", 60),
+    x = "treatment"
+  )
+
+@
+
+\caption{}
+\label{fig:leavem}
 \end{figure}
+
+
 
 
 \section{Computational way station for open and inclusive scientific method development}\label{sec:comp}

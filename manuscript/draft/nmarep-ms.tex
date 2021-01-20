@@ -98,7 +98,7 @@ Pairwise analyses between treatment and control, exposed and unexposed, interven
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
+\includegraphics[width=\maxwidth]{figure/network-1} 
 
 \end{knitrout}
 \caption{This network shows the direct evidence provided by pairwise comparisons in seven studies on treatments for Parkinson's disease~\cite{phillippo_multinma_2020}. Each node represents a treatment, including one placebo, represented by the fourth node. Where there is an edge connecting two treatment nodes, there exists a pairwise comparison in the literature between these two treatments. Where there is no edge connecting the nodes of the network, there is no direct evidence.}
@@ -107,7 +107,7 @@ Pairwise analyses between treatment and control, exposed and unexposed, interven
 
 Software to implement network meta-analyses are relatively new and do not provide complete toolchains for specific protocols, such as reporting results according to Cochrane's handbook~\cite{higgins2019cochrane}. For example, the handbook recommends reporting the network of direct evidence, for which the R package \package{multinma} includes a tool~\cite{phillippo_multinma_2020}, an example of which is shown in Figure \ref{fig:network}. However, the handbook also recommends reporting a \textbf{contribution matrix} of the percentage of each study's contribution to the estimated overall effect, and this is not provided as a visualisation tool with \package{multinma}.
 
-Furthermore, open source scientific software is shifting from all-purpose packages for an entire analysis, such as \package{metafor}, to smaller task-specific software packages. One method of aggregation of tools is a \textbf{metapackage}, such as \package{tidyverse}~\cite{wickham_tidyverse_2017}, for data engineering, which comprises a number of packages that each pertain to different problems, such as \package{ggplot2} for data visualisation, and \package{dplyr} for Boolean data manipulation. Here we explore another way of aggregating resources, for the specific purpose of network meta-analysis reporting: a computational \textbf{way station}, a temporary resting place between two points of travel, of toolchains and tool development.
+Furthermore, open source scientific software is shifting from all-purpose packages for an entire analysis, such as \package{metafor}, to smaller task-specific software packages. One method of aggregation of tools is a \textbf{metapackage}, such as \package{tidyverse}~\cite{wickham_tidyverse_2017}, for data engineering, which comprises a number of packages that each pertain to different problems, such as \package{ggplot2} for data visualisation, and \package{dplyr} for Boolean data manipulation. Here we explore another way of aggregating resources, for the specific purpose of network meta-analysis reporting: a computational \textbf{way station}, a temporary resting place between two points of travel, of toolchains and tool development. Since protocols and tools are are still being developed, this is a way station between a single person's analysis, and a resource that is definitive for all practitioners to follow.
 
 \subsection{A snapshot of a living resource}
 
@@ -147,6 +147,56 @@ Visualisations, too, are still in development. A recent improvement on standard 
 
 \subsection{Sensitivity analyses}
 
+
+
+
+
+Sensitivity in network meta-analysis measures how much the studies agree in results. A standard approach to measuring this is a 'leave one out analysis', shown in Figure \ref{fig:one}, where a study is randomly selected to be omitted, and the meta-analysis is rerun to see if the results differ. We randomly select study %`r study_to_filter` to remove from the analysis.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## [1] "study_1"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+to remove from the analysis.
+
+\begin{figure}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/forest-1} 
+
+\end{knitrout}
+
+\caption{On the left is a forest plot of all analyses. On the right is a forest plot of the analysis with a randomly selected study omitted.}
+\label{fig:one}
+\end{figure}
+
+In this case, there is little disagreement between the studies. However, it does raise the question of what the analysis would report if another study were omitted, and, indeed, what if more than one study were omitted? In Figure \ref{fig:leavem}, we provide aggregation of rankings of network meta-analyses run on all subsets, of size three or greater, of the studies.
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}
+\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/leavem-1} 
+
+\end{knitrout}
+
+\caption{}
+\label{fig:leavem}
+\end{figure}
 
 
 
