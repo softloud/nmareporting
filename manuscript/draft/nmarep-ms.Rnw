@@ -128,7 +128,7 @@ The \package{netmeta} package has tools for contribution matrices, but if one is
 
 \emph{Gav, is the contribution matrix only for frequentist analysis?}
 
-Visualisations, too, are still in development. A recent improvement on standard forest plots are orchard plots which contain not only credible intervals, but prediction intervals, and group studies categorically, particularly useful for large meta-analyses~\cite{nakagawa_orchard_2021}.
+Visualisations, too, are still in development. A recent improvement on standard forest plots are orchard plots which contain not only credible intervals, but prediction intervals, and group studies categorically, particularly useful for large meta-analyses~\cite{nakagawa_orchard_2021}. \package{nmareporting} is a place where implementation of orchard plots for network meta-analysis can be developed.
 
 \subsection{Sensitivity}
 
