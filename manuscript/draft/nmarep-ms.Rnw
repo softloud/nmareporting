@@ -343,7 +343,7 @@ rankings %>%
 
 @
 
-\caption{Rankings for leave $m$ out analyses, where $m = 3, \dots, 7$ studies.}
+\caption{Rankings for leave $m$ out analyses, where $m = 0, \dots, 4$ studies omitted from the total 7 studies available.}
 \label{fig:leavem}
 \end{figure}
 
