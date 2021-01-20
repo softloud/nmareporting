@@ -32,6 +32,12 @@ Julian~{PT} Higgins, James Thomas, Jacqueline Chandler, Miranda Cumpston,
 \newblock {\em Cochrane handbook for systematic reviews of interventions}.
 \newblock John Wiley \& Sons.
 
+\bibitem{statrethinkingbook}
+Richard {McElreath}.
+\newblock {\em Statistical rethinking: A bayesian course with examples in R and
+  stan}.
+\newblock {CRC} Press.
+
 \bibitem{moher_problem_2013}
 David Moher.
 \newblock The problem of duplicate systematic reviews.
@@ -62,6 +68,15 @@ David Naumann.
 David~M. Phillippo.
 \newblock multinma: Network meta-analysis of individual and aggregate data in
   stan.
+
+\bibitem{phillippo_sensitivity_2018}
+David~M. Phillippo, Sofia Dias, A.~E. Ades, Vanessa Didelez, and Nicky~J.
+  Welton.
+\newblock Sensitivity of treatment recommendations to bias in network
+  meta-analysis.
+\newblock 181(3):843--867.
+\newblock \_eprint:
+  https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/rssa.12341.
 
 \bibitem{richards_too_2018}
 Derek Richards.

@@ -46,6 +46,7 @@ knitr::opts_chunk$set(
 library(multinma) # for nma
 library(tidyverse) # general purpose
 library(patchwork)
+# devtools::install_github("johnmackintosh/rockthemes")
 
 # multinma option for parallel core processing
 options(mc.cores = parallel::detectCores())
@@ -102,6 +103,10 @@ In this manuscript, we next describe the gaps in the toolchain for implementing 
 
 Living resources provide a solution to the problem of overabundance of systematic reviews, flooding literature to the point that decision makers are unsure of where to look~\cite{gopalakrishnan_systematic_2013, moher_problem_2013, moller_are_2018, richards_too_2018}. Consider Covid-19, where in the first 88 days after naming the disease, there already existed 88 systematic reviews, one for every day since the disease was named~\cite{naumann_too_2021}. Cochrane's COVID-NMA initiative (https://covid-nma.com/) is a living synthesis solution to this problem, via network meta-analysis of regularly updated Covid-19 research~\cite{boutron_covid-nma_2020}.
 
+\package{nmareporting} is also a living resource, but to solve a different problem. How to bring people together for open scientific collaboration when not all the solutions exist. As a package it is not ready for CRAN, and may never be intended for CRAN. In some ways similar to the \package{rethinking} package the accompanies the canonical\footnote{
+At the time of writing \emph{Statistical Rethinking} has 1243 citations.
+} text, \emph{Statistical Rethinking}, the intention of this software is not to ship a polished piece of software to CRAN, or a publish a manuscript with a definitive toolchain~\cite{statrethinkingbook}. Rather, this manuscript provides a snapshot of a living resource for open collaboration on network meta-analysis reporting.
+
 \section{Toolchain gaps in Cochrane reporting standards}
 
 There exist several software packages for conduction network meta-analysis in R; for example, \package{gemtc}~\cite{valkenhoef_gemtc_2020}, \package{multinma}~\cite{phillippo_multinma_2020}, and \package{netmeta}~\cite{rucker_netmeta_2021}. Different tools will no doubt have unique advantages and disadvantages, however, there is no one tool for all reporting standards for a Cochrane network meta-analysis. Furthermore, visualisations and reporting for meta-analysis are still being developed.
@@ -125,7 +130,7 @@ The \package{netmeta} package has tools for contribution matrices, but if one is
 
 Visualisations, too, are still in development. A recent improvement on standard forest plots are orchard plots which contain not only credible intervals, but prediction intervals, and group studies categorically, particularly useful for large meta-analyses~\cite{nakagawa_orchard_2021}.
 
-\subsection{Sensitivity analyses}
+\subsection{Sensitivity}
 
 
 <<filter study>>=
@@ -147,7 +152,9 @@ study_to_filter <-
 @
 
 
-Sensitivity in network meta-analysis measures how much the studies agree in results. A standard approach to measuring this is a 'leave one out analysis', shown in Figure \ref{fig:one}, where a study is randomly selected to be omitted, and the meta-analysis is rerun to see if the results differ. We randomly select study %`r study_to_filter` to remove from the analysis.
+Sensitivity in network meta-analysis measures how much the studies agree in results. A standard approach to measuring this is a 'leave one out analysis', shown in Figure \ref{fig:one}, where a study is randomly selected to be omitted, and the meta-analysis is rerun to see if the results differ. We randomly\footnote{
+This manuscript is fully reproducible, with all analyses and code embedded in the document. The source for this manuscript can be found here: https://github.com/softloud/nmareporting/blob/master/manuscript/draft/nmarep-ms.Rnw.
+} select
 
 <<>>=
 study_to_filter
@@ -336,12 +343,21 @@ rankings %>%
 
 @
 
-\caption{}
+\caption{Rankings for leave $m$ out analyses, where $m = 3, \dots, 7$ studies.}
 \label{fig:leavem}
 \end{figure}
 
+Unsurprisingly, the ranking are in agreeement when including all seven studies, with treatment 2 predicted to have the greatest reduction in the measure of interest, the mean off-time reduction in patients given dopamine agonists as adjunct therapy in Parkinson's disease~\cite{phillippo_multinma_2020}. And as treatment 2 dominates in all subgroups, we surmise that there is confidence in the meta-analytic recommendation of treatment 2.
 
+However, other possible inferences do exist in these rankings, supposing we did not have all seven studies, and it is easy to see how a different conclusion might be drawn. Furthermore, another drawback is that whilst leave $m$ studies (for $m \leqslant k$ studies) works for seven studies, this analysis is not practical for meta-analyses that aggregate a larger number of studies. Indeed, the number of network meta-analyses performed in this analysis is
 
+<<>>=
+nrow(study_inclusions)
+@
+
+from seven studies. Clearly this type of analysis would become computationally intractable for larger meta-analyses.
+
+A more robust approach would be threshold analysis, where an \textbf{invariant interval} is provided for each study, showing the interval in which the study's results will not change the ranking~\cite{phillippo_sensitivity_2018}. However, this solution is challenging, involving mathematics and \code{stan} syntax, so providing toolchains, guides, and support for practitioners will surely be helpful.
 
 \section{Computational way station for open and inclusive scientific method development}\label{sec:comp}
 
@@ -395,6 +411,8 @@ pr_finish()
 \end{figure}
 
 \section{Conclusion}
+
+In the era of big data and rapid-fire advances in statistical software, research is still adapting to what, in fact, constitutes a useful research artifact. Mathematical algorithms are conventionally implemented via software. Computational way stations provide a meeting point, between a scholar's inception of an analysis technique, and it's formalisation in scientific protocol.
 
 
 %%% bibliography
