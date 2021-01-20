@@ -1,0 +1,32 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.1.19)  19 JAN 2021 18:23
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**wileyNJD-Doc.tex
+(./wileyNJD-Doc.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14>
+
+! LaTeX Error: File `WileyNJD-v2.cls' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: cls)
+
+Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.2 \usepackage
+               {moreverb}^^M
+*** (cannot \read from terminal in nonstop modes)
+
+ 
+Here is how much of TeX's memory you used:
+ 22 strings out of 481239
+ 497 string characters out of 5920377
+ 236564 words of memory out of 5000000
+ 15388 multiletter control sequences out of 15000+600000
+ 532338 words of font info for 24 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 14i,0n,17p,89b,10s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!
