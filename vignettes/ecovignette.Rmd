@@ -1,0 +1,21 @@
+---
+title: "ecovignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ecovignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nmareporting)
+```
+
+Applying Network Meta-analysis to ecological or conservation intervention data has many challenges, not least the high likelihood of incomplete networks. 
