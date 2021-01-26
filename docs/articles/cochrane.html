@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,6 +57,9 @@
       <a href="../articles/cochrane.html">cochrane</a>
     </li>
     <li>
+      <a href="../articles/ecovignette.html">ecovignette</a>
+    </li>
+    <li>
       <a href="../articles/threshold.html">threshold</a>
     </li>
   </ul>
@@ -72,7 +75,7 @@
 
       
 
-      </header><script src="cochrane_files/header-attrs-2.3/header-attrs.js"></script><script src="cochrane_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="cochrane_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>cochrane</h1>
@@ -85,30 +88,34 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">nmareporting</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">nmareporting</span><span class="op">)</span></code></pre></div>
 <div id="load-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-packages" class="anchor"></a>load packages</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co"># toolchain walkthrough</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">multinma</span>) <span class="co"># network meta-analysis</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)</pre></body></html></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dmphillippo.github.io/multinma/">multinma</a></span><span class="op">)</span> <span class="co"># network meta-analysis</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example-data-parkinsons-disease" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-data-parkinsons-disease" class="anchor"></a>example data | Parkinson’s disease</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># from data documentation</span>
-?<span class="no">parkinsons</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># from data documentation</span>
+<span class="op">?</span><span class="va">parkinsons</span></code></pre></div>
 <blockquote>
 <p>mean off-time reduction in patients given dopamine agonists as adjunct therapy in Parkinson’s disease from 7 trials comparing four active drugs and placebo</p>
 </blockquote>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">parkinsons_dat</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">parkinsons_dat</span> <span class="op">%&gt;%</span>
     <span class="co"># display top values</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">3</span>)
+    <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;    studyn  trtn     y    se   n  diff se_diff</span>
 <span class="co">#&gt; 1 study_1 trt_1 -1.22 0.504  54    NA   0.504</span>
 <span class="co">#&gt; 2 study_1 trt_3 -1.53 0.439  95 -0.31   0.668</span>
-<span class="co">#&gt; 3 study_2 trt_1 -0.70 0.282 172    NA   0.282</span></pre></body></html></div>
+<span class="co">#&gt; 3 study_2 trt_1 -0.70 0.282 172    NA   0.282</span></code></pre></div>
 </div>
 <div id="bayesian-network-meta-analysis-model" class="section level2">
 <h2 class="hasAnchor">
@@ -126,47 +133,50 @@
 <div id="create-network-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-network-object" class="anchor"></a>create network object</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">parkinsons_net</span> <span class="kw">&lt;-</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/multinma/man/set_agd_contrast.html">set_agd_contrast</a></span>(
-        <span class="no">parkinsons</span>,
-        <span class="kw">study</span> <span class="kw">=</span> <span class="no">studyn</span>,
-        <span class="kw">trt</span> <span class="kw">=</span> <span class="no">trtn</span>,
-        <span class="kw">y</span> <span class="kw">=</span> <span class="no">diff</span>,
-        <span class="kw">se</span> <span class="kw">=</span> <span class="no">se_diff</span>,
-        <span class="kw">sample_size</span> <span class="kw">=</span> <span class="no">n</span>
-    )</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">parkinsons_net</span> <span class="op">&lt;-</span>
+    <span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/set_agd_contrast.html">set_agd_contrast</a></span><span class="op">(</span>
+        <span class="va">parkinsons</span>,
+        study <span class="op">=</span> <span class="va">studyn</span>,
+        trt <span class="op">=</span> <span class="va">trtn</span>,
+        y <span class="op">=</span> <span class="va">diff</span>,
+        se <span class="op">=</span> <span class="va">se_diff</span>,
+        sample_size <span class="op">=</span> <span class="va">n</span>
+    <span class="op">)</span></code></pre></div>
 </div>
 <div id="network-meta-analysis-model-prior" class="section level2">
 <h2 class="hasAnchor">
 <a href="#network-meta-analysis-model-prior" class="anchor"></a>network meta-analysis model | prior</h2>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># prior</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/multinma/man/priors.html">normal</a></span>(<span class="kw">scale</span> <span class="kw">=</span> <span class="fl">100</span>))
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># prior</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/priors.html">normal</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; A Normal prior distribution: location = 0, scale = 100.</span>
 <span class="co">#&gt; 50% of the prior density lies between -67.45 and 67.45.</span>
-<span class="co">#&gt; 95% of the prior density lies between -196 and 196.</span></pre></body></html></div>
+<span class="co">#&gt; 95% of the prior density lies between -196 and 196.</span></code></pre></div>
 <p>an example of an area I would like to learn more about; selection of priors.</p>
 </div>
 <div id="network-meta-analysis-model-nma" class="section level2">
 <h2 class="hasAnchor">
 <a href="#network-meta-analysis-model-nma" class="anchor"></a>network meta-analysis model | <code>::nma</code>
 </h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># fit model to network object</span>
-<span class="no">parkinsons_nma</span> <span class="kw">&lt;-</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/multinma/man/nma.html">nma</a></span>(
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># fit model to network object</span>
+<span class="va">parkinsons_nma</span> <span class="op">&lt;-</span>
+    <span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/nma.html">nma</a></span><span class="op">(</span>
         <span class="co"># network object</span>
-        <span class="no">parkinsons_net</span>,
-
+        <span class="va">parkinsons_net</span>, 
+        
         <span class="co"># fixed; for brevity w sensitivity</span>
-        <span class="kw">trt_effects</span> <span class="kw">=</span> <span class="st">"fixed"</span>,
-
+        trt_effects <span class="op">=</span> <span class="st">"fixed"</span>, 
+        
         <span class="co"># set prior on treatment contrast with placebo</span>
-        <span class="kw">prior_trt</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/multinma/man/priors.html">normal</a></span>(<span class="kw">scale</span> <span class="kw">=</span> <span class="fl">100</span>))
+        prior_trt <span class="op">=</span> <span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/priors.html">normal</a></span><span class="op">(</span>scale <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Note: Setting "4" as the network reference treatment.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'normal' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 2.4e-05 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 5.7e-05 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.57 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -183,9 +193,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.052112 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.0447 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.096812 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.057321 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.050036 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.107357 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'normal' NOW (CHAIN 2).</span>
@@ -208,15 +218,15 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.046867 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.041843 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.08871 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.043281 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.04011 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.083391 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'normal' NOW (CHAIN 3).</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Gradient evaluation took 1.1e-05 seconds</span>
-<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.</span>
+<span class="co">#&gt; Chain 3: Gradient evaluation took 1e-05 seconds</span>
+<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.</span>
 <span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; Chain 3: </span>
@@ -233,9 +243,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.042988 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.041121 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.084109 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.043368 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.046436 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.089804 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'normal' NOW (CHAIN 4).</span>
@@ -258,10 +268,10 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.048647 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.044183 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.09283 seconds (Total)</span>
-<span class="co">#&gt; Chain 4:</span></pre></body></html></div>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.040334 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.044476 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.08481 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:</span></code></pre></div>
 </div>
 <div id="cochrane-reporting" class="section level1">
 <h1 class="hasAnchor">
@@ -269,28 +279,33 @@
 <div id="cochrane-reporting-network" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cochrane-reporting-network" class="anchor"></a>cochrane reporting | network</h2>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">parkinsons_net</span>, <span class="kw">weight_edges</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">parkinsons_net</span>, weight_edges <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-8-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="cochrane-reporting-intervention-effects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cochrane-reporting-intervention-effects" class="anchor"></a>cochrane reporting | intervention effects</h2>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">parkinsons_nma</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">parkinsons_nma</span><span class="op">)</span></code></pre></div>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-9-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="cochrane-reporting-intervention-effects-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cochrane-reporting-intervention-effects-1" class="anchor"></a>cochrane reporting | intervention effects</h2>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/multinma/man/plot_prior_posterior.html">plot_prior_posterior</a></span>(<span class="no">parkinsons_nma</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/plot_prior_posterior.html">plot_prior_posterior</a></span><span class="op">(</span><span class="va">parkinsons_nma</span><span class="op">)</span></code></pre></div>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-10-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="cochrane-reporting-ranking" class="section level2 smaller">
 <h2 class="hasAnchor">
 <a href="#cochrane-reporting-ranking" class="anchor"></a>cochrane reporting | ranking</h2>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/multinma/man/posterior_ranks.html">posterior_rank_probs</a></span>(<span class="no">parkinsons_nma</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/posterior_ranks.html">posterior_rank_probs</a></span><span class="op">(</span><span class="va">parkinsons_nma</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r">
-<span class="fu"><a href="https://rdrr.io/pkg/multinma/man/posterior_ranks.html">posterior_rank_probs</a></span>(<span class="no">parkinsons_nma</span>, <span class="kw">cumulative</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://dmphillippo.github.io/multinma/reference/posterior_ranks.html">posterior_rank_probs</a></span><span class="op">(</span><span class="va">parkinsons_nma</span>, cumulative <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-11-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -301,9 +316,10 @@
 <h2 class="hasAnchor">
 <a href="#leave-one-out-exclude-a-random-study-from-the-network-meta-analysis" class="anchor"></a>leave one out | exclude a random study from the network meta-analysis</h2>
 <p><img src="cochrane_files/figure-html/unnamed-chunk-13-1.png" width="700" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># excluding study</span>
-<span class="no">study_to_filter</span>
-<span class="co">#&gt; [1] "study_1"</span></pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># excluding study</span>
+<span class="va">study_to_filter</span>
+<span class="co">#&gt; [1] "study_5"</span></code></pre></div>
 </div>
 <div id="leave-m-out" class="section level2 flexbox">
 <h2 class="hasAnchor">
@@ -328,7 +344,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

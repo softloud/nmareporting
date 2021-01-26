@@ -18,4 +18,7 @@ knitr::opts_chunk$set(
 library(nmareporting)
 ```
 
+
+> This doc is a placeholder created to test [pr workfow](https://usethis.r-lib.org/articles/articles/pr-functions.html) and will likely be developed at a later date.
+
 Applying Network Meta-analysis to ecological or conservation intervention data has many challenges, not least the high likelihood of incomplete networks. 
