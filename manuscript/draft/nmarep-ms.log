@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.1.19)  21 JAN 2021 02:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.1.19)  31 JAN 2021 20:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -219,135 +219,139 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package color Info: Redefining color shadecolor on input line 100.
+Package color Info: Redefining color shadecolor on input line 102.
 <figure/network-1.pdf, id=11, 505.89pt x 216.81pt>
 File: figure/network-1.pdf Graphic file (type pdf)
 <use figure/network-1.pdf>
-Package pdftex.def Info: figure/network-1.pdf  used on input line 101.
+Package pdftex.def Info: figure/network-1.pdf  used on input line 103.
 (pdftex.def)             Requested size: 390.0pt x 167.14601pt.
- [2 <./figure/network-1.pdf>] [3] [4]
-<contribution-matrix.png, id=27, 794.97pt x 789.95125pt>
+ [2 <./figure/network-1.pdf>]
+Overfull \hbox (4.70566pt too wide) in paragraph at lines 116--117
+\OT1/cmr/m/n/12 The Method-olog-i-cal Ex-pec-ta-tions of Cochrane In-ter-ven-ti
+on Re-views (MECIR)
+ []
+
+[3] [4] [5]
+<contribution-matrix.png, id=34, 794.97pt x 789.95125pt>
 File: contribution-matrix.png Graphic file (type png)
 <use contribution-matrix.png>
-Package pdftex.def Info: contribution-matrix.png  used on input line 141.
+Package pdftex.def Info: contribution-matrix.png  used on input line 150.
 (pdftex.def)             Requested size: 195.0pt x 193.76274pt.
-
-[5]
-Underfull \hbox (badness 3128) in paragraph at lines 158--158
+ [6]
+Underfull \hbox (badness 3128) in paragraph at lines 167--167
 [][]\OT1/cmr/m/n/10 This manuscript is fully re-pro-ducible, with all anal-y-se
 s and code em-bed-
  []
 
 
-Underfull \hbox (badness 3058) in paragraph at lines 158--158
+Underfull \hbox (badness 3058) in paragraph at lines 167--167
 \OT1/cmr/m/n/10 ded in the doc-u-ment. The source for this manuscript can be fo
 und here:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 167--167
 \OT1/cmr/m/n/10 https://github.com/softloud/nmareporting/blob/master/manuscript
 /draft/nmarep-
  []
 
-[6 <./contribution-matrix.png>]
-Package color Info: Redefining color shadecolor on input line 161.
-Package color Info: Redefining color shadecolor on input line 172.
-<figure/forest-1.pdf, id=40, 505.89pt x 216.81pt>
+[7 <./contribution-matrix.png>]
+Package color Info: Redefining color shadecolor on input line 170.
+Package color Info: Redefining color shadecolor on input line 181.
+<figure/forest-1.pdf, id=44, 505.89pt x 216.81pt>
 File: figure/forest-1.pdf Graphic file (type pdf)
 <use figure/forest-1.pdf>
-Package pdftex.def Info: figure/forest-1.pdf  used on input line 173.
+Package pdftex.def Info: figure/forest-1.pdf  used on input line 182.
 (pdftex.def)             Requested size: 390.0pt x 167.14601pt.
- [7 <./figure/forest-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 196.
-<figure/leavem-1.pdf, id=50, 505.89pt x 397.485pt>
+Package color Info: Redefining color shadecolor on input line 205.
+<figure/leavem-1.pdf, id=45, 505.89pt x 397.485pt>
 File: figure/leavem-1.pdf Graphic file (type pdf)
 <use figure/leavem-1.pdf>
-Package pdftex.def Info: figure/leavem-1.pdf  used on input line 197.
+Package pdftex.def Info: figure/leavem-1.pdf  used on input line 206.
 (pdftex.def)             Requested size: 390.0pt x 306.43436pt.
- [8 <./figure/leavem-1.pdf>]
-Package color Info: Redefining color shadecolor on input line 210.
- [9]
-Overfull \hbox (2.76814pt too wide) in paragraph at lines 229--230
+ [8 <./figure/forest-1.pdf>] [9 <./figure/leavem-1.pdf>]
+Package color Info: Redefining color shadecolor on input line 219.
+ [10]
+Overfull \hbox (2.76814pt too wide) in paragraph at lines 238--239
 []\OT1/cmr/m/n/12 In this sec-tion, we con-sider de-vel-op-ing a toolchain for 
 re-port-ing a Cochrane
  []
 
-[10]
-Overfull \hbox (2.56076pt too wide) in paragraph at lines 245--246
+[11]
+Overfull \hbox (2.56076pt too wide) in paragraph at lines 254--255
 []\OT1/cmr/m/n/12 In Fig-ure 5[] is a sketch of the work-flow for con-tribut-in
 g to \OT1/cmtt/m/n/12 nmareporting::\OT1/cmr/m/n/12 ,
  []
 
-Package color Info: Redefining color shadecolor on input line 250.
+Package color Info: Redefining color shadecolor on input line 259.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 252.
-[11] (./nmarep-ms.bbl
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 261.
+[12] (./nmarep-ms.bbl [13]
 Underfull \hbox (badness 2393) in paragraph at lines 11--17
 []\OT1/cmr/m/n/12 Isabelle Boutron, Anna Chaimani, Jo-erg J. Meer-pohl, Asbj^^\
 rn
  []
 
-[12]
-Underfull \hbox (badness 2035) in paragraph at lines 55--61
+[14]
+Underfull \hbox (badness 2035) in paragraph at lines 82--88
 []\OT1/cmr/m/n/12 Shinichi Nak-a-gawa, Mal-go-rzata Lag-isz, Rose E. O'Dea, Joa
 nna
  []
 
 
-Underfull \hbox (badness 1163) in paragraph at lines 55--61
+Underfull \hbox (badness 1163) in paragraph at lines 82--88
 \OT1/cmr/m/n/12 Rutkowska, Yefeng Yang, Daniel W. A. No-ble, and Al-is-tair M.
  []
 
 
-Underfull \hbox (badness 6775) in paragraph at lines 55--61
+Underfull \hbox (badness 6775) in paragraph at lines 82--88
 \OT1/cmr/m/n/12 Se-nior.  The or-chard plot: Cul-ti-vat-ing a for-est plot for
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 55--61
+Underfull \hbox (badness 2521) in paragraph at lines 82--88
 \OT1/cmr/m/n/12 use in ecol-ogy, evo-lu-tion, and be-yond.  12(1):4--12.  []epr
 int:
  []
 
-[13]
-Underfull \hbox (badness 1990) in paragraph at lines 73--80
+[15]
+Underfull \hbox (badness 1990) in paragraph at lines 100--107
 []\OT1/cmr/m/n/12 David M. Phillippo, Sofia Dias, A. E. Ades, Vanessa Didelez,
  []
 
 
-Underfull \hbox (badness 3439) in paragraph at lines 73--80
+Underfull \hbox (badness 3439) in paragraph at lines 100--107
 \OT1/cmr/m/n/12 and Nicky J. Wel-ton.  Sen-si-tiv-ity of treat-ment rec-om-men-
 da-
  []
 
-) [14] (./nmarep-ms.aux) ) 
+[16]) [17] (./nmarep-ms.aux) ) 
 Here is how much of TeX's memory you used:
- 2757 strings out of 481239
- 36727 string characters out of 5920377
- 271302 words of memory out of 5000000
- 17989 multiletter control sequences out of 15000+600000
+ 2761 strings out of 481239
+ 36806 string characters out of 5920377
+ 270315 words of memory out of 5000000
+ 17993 multiletter control sequences out of 15000+600000
  543413 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  30i,8n,31p,1161b,372s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t
-s1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
-12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam1
-0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on nmarep-ms.pdf (14 pages, 242335 bytes).
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-sup
+er-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/m
+sam10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on nmarep-ms.pdf (17 pages, 245125 bytes).
 PDF statistics:
- 131 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
+ 140 PDF objects out of 1000 (max. 8388607)
+ 98 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

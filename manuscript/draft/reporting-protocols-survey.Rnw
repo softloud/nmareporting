@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\title{Survey of methods}
+
+\begin{document}
+
+The Cochrane Handbook~\cite{higgins2019cochrane} recommends consulting the extended Preferred Reporting Items for Systematic Reviews and Meta-analyses (PRISMA) guidelines for network meta-analysis~\cite{hutton_prisma_2015}, a 32-item checklist adapted from PRISMA guidelines for pairwise meta-analysis for comparison of multiple treatments.
+
+\section{Document structure}
+
+
+
+
+\end{itemize}
+
+
+%%% bibliography
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

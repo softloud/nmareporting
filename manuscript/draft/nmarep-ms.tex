@@ -88,9 +88,11 @@
 \maketitle
 
 
-\section{Network meta-analysis reporting}\label{sec:nma}
+\section{Network meta-analysis reporting according to Cochrane protocols}\label{sec:nma}
 
 % why is it important
+
+\subsection{Network meta-analysis}
 
 Pairwise analyses between treatment and control, exposed and unexposed, intervention and no intervention, are conventionally undertaken with meta-analysis in fields such as ecology, medicine, and the social sciences~\cite{borenstein_introduction_2011}. Network meta-analysis provides a means of comparing three or more treatments or interventions, including control or placebo~\cite{higgins2019cochrane}. The question answered by a network meta-analysis is not \emph{if} a treatment works, but \emph{which} treatments perform better, comparatively~\cite{harrer_doing_2019}. A particularly useful aspect of network meta-analysis is combining the results of more than one pairwise analysis and constructing indirect comparisons, where pairwise evidence is unavailable, from a network of direct comparisons. An example of direct comparisons provided by existing evidence is shown in Figure \ref{fig:network}. Network meta-analysis converts the network to a complete graph, where all treatments are compared with all other treatments, that is, every node connects to every other node via direct or indirect comparison.
 
@@ -108,6 +110,13 @@ Pairwise analyses between treatment and control, exposed and unexposed, interven
 Software to implement network meta-analyses are relatively new and do not provide complete toolchains for specific protocols, such as reporting results according to Cochrane's handbook~\cite{higgins2019cochrane}. For example, the handbook recommends reporting the network of direct evidence, for which the R package \package{multinma} includes a tool~\cite{phillippo_multinma_2020}, an example of which is shown in Figure \ref{fig:network}. However, the handbook also recommends reporting a \textbf{contribution matrix} of the percentage of each study's contribution to the estimated overall effect, and this is not provided as a visualisation tool with \package{multinma}.
 
 Furthermore, open source scientific software is shifting from all-purpose packages for an entire analysis, such as \package{metafor}, to smaller task-specific software packages. One method of aggregation of tools is a \textbf{metapackage}, such as \package{tidyverse}~\cite{wickham_tidyverse_2017}, for data engineering, which comprises a number of packages that each pertain to different problems, such as \package{ggplot2} for data visualisation, and \package{dplyr} for Boolean data manipulation. Here we explore another way of aggregating resources, for the specific purpose of network meta-analysis reporting: a computational \textbf{way station}, a temporary resting place between two points of travel, of toolchains and tool development. Since protocols and tools are are still being developed, this is a way station between a single person's analysis, and a resource that is definitive for all practitioners to follow.
+
+\subsection{Reporting protocols}
+
+The Methodological Expectations of Cochrane Intervention Reviews (MECIR) manual~\cite{higgins_methodological_2016} provides a collection of recommendations for reporting Cochrane reviews in compliance with the Preferred Reporting Reporting Items for Systematic reviews and Meta-analysis~\cite{liberati_prisma_2009} (PRISMA). The Cochrane Handbook~\cite{higgins2019cochrane} further recommends that extended PRISMA guidelines~\cite{hutton_prisma_2015} are followed for reporting network meta-analyses, as PRISMA guidelines apply to pairwise comparisons, whereas network meta-analyses compare mulitple interventions.
+
+These guidelines are necessarily prescriptive, in order to facilitate evidence synthesis; for example, the title must include "network meta-analysis"~\cite{hutton_prisma_2015}. As we are considering the computational implementation of network meta-analysis in this manuscript, we will focus on the statistical reporting elements of these protocols.
+
 
 \subsection{A snapshot of a living resource}
 

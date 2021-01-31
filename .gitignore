@@ -5,3 +5,4 @@
 manuscript/*/*.log
 manuscript/*/*.bbl
 manuscript/*/*.synctex*/
+inst/doc

@@ -124,7 +124,10 @@ parkinsons_nma <-
 
 ```
 
-# cochrane reporting 
+# cochrane reporting | Synthesis of Results
+
+From [Section 11.4](https://training.cochrane.org/handbook/current/chapter-11#section-11-4) of The Cochrane Handbook
+
 
 ## cochrane reporting | network
 
